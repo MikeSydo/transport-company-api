@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id  Int @id  @default(autoincrement())
+  clientId Int
+  routeFrom  String
+  routeTo String
+  departureTime  DateTime
+  arrivalTime DateTime
+
+  client Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  tripDetails TripDetails?
+}
+
+model Client {
+  id Int @id  @default(autoincrement())
+  name String
+  phones String[]
+  contactInfo String[]
+  company String
+
+  orders Order[]
+}
+
+model Driver {
+  id Int @id @default(autoincrement())
+  name String
+  phones String[]
+  contactInfo     String[]
+  licenseNumber   String   @unique
+  licenseExpiry   DateTime
+
+  trips TripDetails[]
+}
+
+model Vehicle {
+  id Int @id @default(autoincrement())
+  registrationNumber String @unique
+  type String
+  model String
+  year  Int
+  capacity  Float
+  fuelType  String
+
+  trips TripDetails[]
+}
+
+model TripDetails {
+  id Int @id @default(autoincrement())
+  driverId Int
+  vehicleId Int
+  orderId Int @unique
+  routeFrom String
+  routeTo String
+  status String @default("scheduled")
+  expenses Float  @default(0)
+
+  driver Driver @relation(fields: [driverId], references: [id])
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  tripLogs TripLog[]
+}
+
+model TripLog {
+  id Int @id @default(autoincrement())
+  tripDetailsId Int
+  location  String
+  departureTime DateTime?
+  arrivalTime   DateTime?
+  comments String?
+  expenses Float  @default(0)
+
+  tripDetails TripDetails @relation(fields: [tripDetailsId], references: [id], onDelete: Cascade)
+}
