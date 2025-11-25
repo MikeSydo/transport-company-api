@@ -108,22 +108,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.get('/trip/:tripDetailsId', async (req, res) => {
-  try {
-    const tripDetailsId = parseInt(req.params.tripDetailsId);
-    const logs = await prisma.tripLog.findMany({
-      where: { tripDetailsId },
-      include: {
-        tripDetails: true
-      },
-      orderBy: {
-        departureTime: 'asc'
-      }
-    });
-    res.json(logs);
-  } catch (error) {
-    res.status(500).json({ error: error instanceof Error ? error.message : String(error) });
-  }
-});
-
 export default router;

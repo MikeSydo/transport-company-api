@@ -96,21 +96,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.get('/status/:status', async (req, res) => {
-  try {
-    const status = req.params.status;
-    const trips = await prisma.tripDetails.findMany({
-      where: { status },
-      include: {
-        driver: true,
-        vehicle: true,
-        order: true
-      }
-    });
-    res.json(trips);
-  } catch (error) {
-    res.status(500).json({ error: error instanceof Error ? error.message : String(error) });
-  }
-});
-
 export default router;

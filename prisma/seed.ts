@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.tripLog.deleteMany();
-  await prisma.tripDetails.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.tripDetails.deleteMany();
   await prisma.vehicle.deleteMany();
   await prisma.driver.deleteMany();
   await prisma.client.deleteMany();
@@ -211,105 +211,11 @@ async function main() {
     })
   ]);
 
-  const orders = await Promise.all([
-    prisma.order.create({
-      data: {
-        clientId: clients[0].id,
-        routeFrom: 'Київ',
-        routeTo: 'Львів',
-        departureTime: new Date('2025-11-20T08:00:00Z'),
-        arrivalTime: new Date('2025-11-20T14:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[1].id,
-        routeFrom: 'Львів',
-        routeTo: 'Одеса',
-        departureTime: new Date('2025-11-21T09:00:00Z'),
-        arrivalTime: new Date('2025-11-21T17:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[2].id,
-        routeFrom: 'Харків',
-        routeTo: 'Дніпро',
-        departureTime: new Date('2025-11-22T07:30:00Z'),
-        arrivalTime: new Date('2025-11-22T11:30:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[0].id,
-        routeFrom: 'Київ',
-        routeTo: 'Одеса',
-        departureTime: new Date('2025-11-23T10:00:00Z'),
-        arrivalTime: new Date('2025-11-23T16:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[3].id,
-        routeFrom: 'Дніпро',
-        routeTo: 'Запоріжжя',
-        departureTime: new Date('2025-11-24T08:30:00Z'),
-        arrivalTime: new Date('2025-11-24T11:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[4].id,
-        routeFrom: 'Львів',
-        routeTo: 'Ужгород',
-        departureTime: new Date('2025-11-25T06:00:00Z'),
-        arrivalTime: new Date('2025-11-25T10:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[1].id,
-        routeFrom: 'Київ',
-        routeTo: 'Харків',
-        departureTime: new Date('2025-11-26T09:00:00Z'),
-        arrivalTime: new Date('2025-11-26T14:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[2].id,
-        routeFrom: 'Одеса',
-        routeTo: 'Миколаїв',
-        departureTime: new Date('2025-11-27T11:00:00Z'),
-        arrivalTime: new Date('2025-11-27T13:30:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[3].id,
-        routeFrom: 'Вінниця',
-        routeTo: 'Житомир',
-        departureTime: new Date('2025-11-28T08:00:00Z'),
-        arrivalTime: new Date('2025-11-28T11:00:00Z')
-      }
-    }),
-    prisma.order.create({
-      data: {
-        clientId: clients[4].id,
-        routeFrom: 'Полтава',
-        routeTo: 'Суми',
-        departureTime: new Date('2025-11-29T07:00:00Z'),
-        arrivalTime: new Date('2025-11-29T10:30:00Z')
-      }
-    })
-  ]);
-
   const tripDetails = await Promise.all([
     prisma.tripDetails.create({
       data: {
         driverId: drivers[0].id,
         vehicleId: vehicles[0].id,
-        orderId: orders[0].id,
         routeFrom: 'Київ',
         routeTo: 'Львів',
         status: 'completed',
@@ -320,7 +226,6 @@ async function main() {
       data: {
         driverId: drivers[1].id,
         vehicleId: vehicles[1].id,
-        orderId: orders[1].id,
         routeFrom: 'Львів',
         routeTo: 'Одеса',
         status: 'completed',
@@ -331,7 +236,6 @@ async function main() {
       data: {
         driverId: drivers[2].id,
         vehicleId: vehicles[2].id,
-        orderId: orders[2].id,
         routeFrom: 'Харків',
         routeTo: 'Дніпро',
         status: 'completed',
@@ -342,7 +246,6 @@ async function main() {
       data: {
         driverId: drivers[3].id,
         vehicleId: vehicles[3].id,
-        orderId: orders[3].id,
         routeFrom: 'Київ',
         routeTo: 'Одеса',
         status: 'completed',
@@ -353,7 +256,6 @@ async function main() {
       data: {
         driverId: drivers[4].id,
         vehicleId: vehicles[4].id,
-        orderId: orders[4].id,
         routeFrom: 'Дніпро',
         routeTo: 'Запоріжжя',
         status: 'completed',
@@ -364,7 +266,6 @@ async function main() {
       data: {
         driverId: drivers[5].id,
         vehicleId: vehicles[5].id,
-        orderId: orders[5].id,
         routeFrom: 'Львів',
         routeTo: 'Ужгород',
         status: 'in_progress',
@@ -375,7 +276,6 @@ async function main() {
       data: {
         driverId: drivers[6].id,
         vehicleId: vehicles[6].id,
-        orderId: orders[6].id,
         routeFrom: 'Київ',
         routeTo: 'Харків',
         status: 'in_progress',
@@ -386,7 +286,6 @@ async function main() {
       data: {
         driverId: drivers[7].id,
         vehicleId: vehicles[7].id,
-        orderId: orders[7].id,
         routeFrom: 'Одеса',
         routeTo: 'Миколаїв',
         status: 'scheduled',
@@ -397,7 +296,6 @@ async function main() {
       data: {
         driverId: drivers[0].id,
         vehicleId: vehicles[0].id,
-        orderId: orders[8].id,
         routeFrom: 'Вінниця',
         routeTo: 'Житомир',
         status: 'scheduled',
@@ -408,11 +306,113 @@ async function main() {
       data: {
         driverId: drivers[1].id,
         vehicleId: vehicles[1].id,
-        orderId: orders[9].id,
         routeFrom: 'Полтава',
         routeTo: 'Суми',
         status: 'scheduled',
         expenses: 1600.00
+      }
+    })
+  ]);
+
+  await Promise.all([
+    prisma.order.create({
+      data: {
+        clientId: clients[0].id,
+        routeFrom: 'Київ',
+        routeTo: 'Львів',
+        departureTime: new Date('2025-11-20T08:00:00Z'),
+        arrivalTime: new Date('2025-11-20T14:00:00Z'),
+        tripDetailsId: tripDetails[0].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[1].id,
+        routeFrom: 'Львів',
+        routeTo: 'Одеса',
+        departureTime: new Date('2025-11-21T09:00:00Z'),
+        arrivalTime: new Date('2025-11-21T17:00:00Z'),
+        tripDetailsId: tripDetails[1].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[2].id,
+        routeFrom: 'Харків',
+        routeTo: 'Дніпро',
+        departureTime: new Date('2025-11-22T07:30:00Z'),
+        arrivalTime: new Date('2025-11-22T11:30:00Z'),
+        tripDetailsId: tripDetails[2].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[0].id,
+        routeFrom: 'Київ',
+        routeTo: 'Одеса',
+        departureTime: new Date('2025-11-23T10:00:00Z'),
+        arrivalTime: new Date('2025-11-23T16:00:00Z'),
+        tripDetailsId: tripDetails[3].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[3].id,
+        routeFrom: 'Дніпро',
+        routeTo: 'Запоріжжя',
+        departureTime: new Date('2025-11-24T08:30:00Z'),
+        arrivalTime: new Date('2025-11-24T11:00:00Z'),
+        tripDetailsId: tripDetails[4].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[4].id,
+        routeFrom: 'Львів',
+        routeTo: 'Ужгород',
+        departureTime: new Date('2025-11-25T06:00:00Z'),
+        arrivalTime: new Date('2025-11-25T10:00:00Z'),
+        tripDetailsId: tripDetails[5].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[1].id,
+        routeFrom: 'Київ',
+        routeTo: 'Харків',
+        departureTime: new Date('2025-11-26T09:00:00Z'),
+        arrivalTime: new Date('2025-11-26T14:00:00Z'),
+        tripDetailsId: tripDetails[6].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[2].id,
+        routeFrom: 'Одеса',
+        routeTo: 'Миколаїв',
+        departureTime: new Date('2025-11-27T11:00:00Z'),
+        arrivalTime: new Date('2025-11-27T13:30:00Z'),
+        tripDetailsId: tripDetails[7].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[3].id,
+        routeFrom: 'Вінниця',
+        routeTo: 'Житомир',
+        departureTime: new Date('2025-11-28T08:00:00Z'),
+        arrivalTime: new Date('2025-11-28T11:00:00Z'),
+        tripDetailsId: tripDetails[8].id
+      }
+    }),
+    prisma.order.create({
+      data: {
+        clientId: clients[4].id,
+        routeFrom: 'Полтава',
+        routeTo: 'Суми',
+        departureTime: new Date('2025-11-29T07:00:00Z'),
+        arrivalTime: new Date('2025-11-29T10:30:00Z'),
+        tripDetailsId: tripDetails[9].id
       }
     })
   ]);
